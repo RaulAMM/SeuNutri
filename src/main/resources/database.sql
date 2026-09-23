@@ -64,17 +64,17 @@ CREATE INDEX `fk_Usuario_Ranque1_idx` ON `SeuNutri`.`Usuario` (`Id_ranque` ASC) 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `SeuNutri`.`Pratos`
+-- Table `SeuNutri`.`Prato`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `SeuNutri`.`Pratos` ;
+DROP TABLE IF EXISTS `SeuNutri`.`Prato` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `SeuNutri`.`Pratos` (
-  `idPratos` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `SeuNutri`.`Prato` (
+  `idPrato` INT NOT NULL,
   `Ingredientes` VARCHAR(45) NOT NULL,
-  `valorNutricional` VARCHAR(45) NOT NULL,
+  `valorNutricional` float NOT NULL,
   `Receita` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idPratos`))
+  PRIMARY KEY (`idPrato`))
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -98,9 +98,9 @@ CREATE TABLE IF NOT EXISTS `SeuNutri`.`Ficha` (
     REFERENCES `SeuNutri`.`Usuario` (`CPF`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Ficha_Pratos1`
+  CONSTRAINT `fk_Ficha_Prato1`
     FOREIGN KEY (`Id_prato`)
-    REFERENCES `SeuNutri`.`Pratos` (`idPratos`)
+    REFERENCES `SeuNutri`.`Prato` (`idPrato`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Ficha_Ranque1`
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `SeuNutri`.`Ficha` (
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_Ficha_Pratos1_idx` ON `SeuNutri`.`Ficha` (`Id_prato` ASC) ;
+CREATE INDEX `fk_Ficha_Prato1_idx` ON `SeuNutri`.`Ficha` (`Id_prato` ASC) ;
 
 SHOW WARNINGS;
 CREATE INDEX `fk_Ficha_Ranque1_idx` ON `SeuNutri`.`Ficha` (`Id_ranque` ASC);
