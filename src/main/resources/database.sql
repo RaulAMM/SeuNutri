@@ -71,6 +71,7 @@ DROP TABLE IF EXISTS `SeuNutri`.`Prato` ;
 SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `SeuNutri`.`Prato` (
   `idPrato` INT NOT NULL,
+  `Nome` VARCHAR(45) NOT NULL,
   `Ingredientes` VARCHAR(45) NOT NULL,
   `valorNutricional` float NOT NULL,
   `Receita` VARCHAR(45) NOT NULL,
