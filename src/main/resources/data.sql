@@ -1,0 +1,2 @@
+-- Dados iniciais para o banco de dados SeuNutri
+-- (Nenhum dado inicial foi especificado no arquivo database.sql)
