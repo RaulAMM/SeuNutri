@@ -1,10 +1,8 @@
 package edu.ifsp.seunutri.modelo;
 
-import org.hibernate.annotations.ManyToAny;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,16 +13,13 @@ public class Ficha {
 	private double peso;
 	
 	@Id
-	@ManyToAny
-	@JoinColumn(name = "Usuario_cpf")
-	private int usuarioCPF;
-	
-	@ManyToAny
-	@JoinColumn(name = "Id_prato")
-	private int idPrato;
-	
-	@ManyToAny
-	@JoinColumn(name = "Id_ranque")
+	@Column(name = "usuario_cpf")
+	private long usuarioCPF;
+
+	@Column(name = "id_prato")
+	private long idPrato;
+
+	@Column(name = "id_ranque")
 	private int idRanque;
 
 	public int getImc() {
@@ -43,19 +38,19 @@ public class Ficha {
 		this.peso = peso;
 	}
 
-	public int getUsuarioCPF() {
+	public long getUsuarioCPF() {
 		return usuarioCPF;
 	}
 
-	public void setUsuarioCPF(int usuarioCPF) {
+	public void setUsuarioCPF(long usuarioCPF) {
 		this.usuarioCPF = usuarioCPF;
 	}
 
-	public int getIdPrato() {
+	public long getIdPrato() {
 		return idPrato;
 	}
 
-	public void setIdPrato(int idPrato) {
+	public void setIdPrato(long idPrato) {
 		this.idPrato = idPrato;
 	}
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pratos</title>
+</head>
+<body>
+    <h1>Pratos</h1>
+    <p th:if="${erro}" th:text="${erro}" style="color:red"></p>
+    <a th:href="@{/pratos/novo}">Novo Prato</a>
+    <table border="1">
+        <tr>
+            <th>ID</th><th>Nome</th><th>Ingredientes</th><th>Valor Nutricional</th><th>Receita</th><th>Ações</th>
+        </tr>
+        <tr th:each="prato : ${pratos}">
+            <td th:text="${prato.id}"></td>
+            <td th:text="${prato.nome}"></td>
+            <td th:text="${prato.ingredientes}"></td>
+            <td th:text="${prato.valorNutricional}"></td>
+            <td th:text="${prato.receita}"></td>
+            <td>
+                <a th:href="@{/pratos/{id}/editar(id=${prato.id})}">Editar</a>
+                <form th:action="@{/pratos/{id}/excluir(id=${prato.id})}" method="post" style="display:inline">
+                    <button type="submit">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

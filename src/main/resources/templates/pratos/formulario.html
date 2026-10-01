@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Prato</title>
+</head>
+<body>
+    <h1 th:text="${prato.id} != null ? 'Editar Prato' : 'Novo Prato'"></h1>
+    <form th:action="${prato.id} != null ? '/pratos/' + ${prato.id} : '/pratos'" th:object="${prato}" method="post">
+        <label>Nome: <input type="text" th:field="*{nome}" required/></label><br/>
+        <label>Ingredientes: <input type="text" th:field="*{ingredientes}" required/></label><br/>
+        <label>Valor Nutricional: <input type="number" step="0.1" th:field="*{valorNutricional}" required/></label><br/>
+        <label>Receita: <textarea th:field="*{receita}" required></textarea></label><br/>
+        <button type="submit">Salvar</button>
+    </form>
+    <a th:href="@{/pratos}">Voltar</a>
+</body>
+</html>

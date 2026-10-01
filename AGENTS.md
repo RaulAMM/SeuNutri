@@ -1,71 +1,45 @@
 # AGENTS.md
 
 ## Escopo do Projeto
-Este projeto consiste em uma aplicação **monolítica** desenvolvida com **Spring Boot** e **Thymeleaf**, voltada à promoção da alimentação saudável.  
-Não haverá separação entre backend e frontend.  
-O banco de dados será manipulado exclusivamente por meio dos arquivos `src/main/resources/schema.sql` e `src/main/resources/data.sql`.  
-Não serão utilizados endpoints REST, nem ferramentas de migrations (Flyway, Liquibase).  
+Aplicação **monolítica** com **Spring Boot** e **Thymeleaf**, voltada à promoção da alimentação saudável.
+Não haverá separação backend/frontend, endpoints REST, nem migrations (Flyway/Liquibase).
+O banco é manipulado exclusivamente via `src/main/resources/schema.sql` e `data.sql`.
 
-## Tecnologias Utilizadas
-- **JDK:** 21  
-- **Backend:** Java + Spring Boot  
-- **Frontend:** Thymeleaf + HTML5 + CSS3  
-- **Banco de Dados:** MySQL (scripts SQL para schema e dados)  
-- **IDE Principal:** Eclipse  
-- **Versionamento:** Git  
-- **Agente de IA:** GitHub Copilot (via VS Code)  
-- **Metodologia:** Scrum, com aplicação do ciclo **GVR (Generate-Verify-Refine)**  
+## Tecnologias
+- **JDK:** 21 · **Spring Boot:** 4.1.1 · **MySQL** · **JPA/Hibernate** · **Thymeleaf**
+- IDE principal: Eclipse; VS Code apenas com Copilot. Metodologia: Scrum com ciclo **GVR**.
+
+## Comandos (Windows)
+- Rodar app: `.\gradlew.bat bootRun`
+- Testes: `.\gradlew.bat test` (JUnit Platform)
+- Build: `.\gradlew.bat build`
+
+## Banco de Dados — pré-requisitos de execução
+- MySQL esperado em `localhost:3307`, usuário `root`, senha `root`, schema `SeuNutri` (ver `application.properties`).
+- MySQL **não** é banco embutido: `schema.sql`/`data.sql` **não** são executados automaticamente — crie schema/tabelas manualmente antes de subir a app.
+- `spring.jpa.hibernate.ddl-auto=validate`: qualquer divergência entre entidades e `schema.sql` derruba a aplicação no boot.
+- O teste único (`SeunutriApplicationTests.contextLoads`, `@SpringBootTest`) **exige** o MySQL acessível em 3307; sem ele, o teste falha.
+
+## Armadilhas estruturais (verificadas no código)
+- Os pacotes `repository` e `services` estão **fora** de `edu.ifsp.seunutri`: o component scan do `@SpringBootApplication` **não** os registra como beans. Novos repositórios/serviços devem ficar em `edu.ifsp.seunutri.<camada>` ou a injeção quebra.
+- Mapeamentos JPA atuais são inválidos/incompatíveis com o schema (`@ManyToAny` em campos `int`, `Prato.id` vs coluna `idPrato`, naming strategy snake_case do Spring vs colunas camelCase como `valorNutricional`): o `ddl-auto=validate` tende a falhar até isso ser reconciliado.
+- Ainda não existem pacote de controllers nem pasta `src/main/resources/templates` (Thymeleaf não tem view para renderizar).
+- Headers das entidades do schema usam `CREATE SCHEMA IF NOT EXISTS`, mas `application.properties` aponta para `SeuNutri` — o schema precisa existir antes do boot.
+
+## Dependências — inconsistência conhecida
+- A regra antiga deste arquivo dizia "Não utilizar Lombok", mas **Lombok está no `build.gradle`** (`compileOnly` + `annotationProcessor`) e já é usado em `Prato`. Ao mexer nesse ponto, confirme a decisão do time antes de adicionar/remover.
+- Spring Boot 4 renomeou starters: use `spring-boot-starter-webmvc`, `-thymeleaf`, `-data-jpa` e variantes `-test` (não o antigo `spring-boot-starter-web`).
 
 ## Regras de Arquitetura
-1. **Camadas**  
-   - Arquitetura básica: **Controlador → Service → Repositório**.  
-   - As próprias **entities JPA** trafegarão entre as camadas, para simplificar.  
-
-2. **DTOs**  
-   - Criar DTOs somente quando houver necessidade de representar elementos de interface (ex.: sumário de dashboard).  
-   - O mapeamento entre DTO e Entity deve ser feito **manualmente**, sem uso de bibliotecas externas.  
-
-3. **Entities**  
-   - Sempre que possível, utilizar diretamente as entities JPA como objetos de dados.  
-   - Evitar duplicação desnecessária de estruturas.  
+1. Camadas **Controlador → Service → Repositório**; entidades JPA trafegam entre camadas.
+2. DTOs só para representar elementos de interface; mapeamento DTO↔Entity manual, sem bibliotecas.
+3. Sem REST controllers, sem separar backend/frontend.
 
 ## Restrições Normativas
-Agentes de IA e desenvolvedores devem seguir as seguintes diretrizes:
-
-1. **Requisitos do Projeto**
-   - Não alterar ou propor novos requisitos além dos definidos.  
-   - Não incluir funcionalidades fora do escopo estabelecido.  
-
-2. **Dependências**
-   - Não adicionar novas dependências ao projeto sem aprovação explícita.  
-   - Não utilizar **Lombok**.  
-
-3. **Banco de Dados**
-   - Toda manipulação deve ser feita via `schema.sql` e `data.sql`.  
-   - Não utilizar migrations automáticas.  
-
-4. **Agentes de IA**
-   - Devem atuar apenas como suporte no ciclo **GVR**.  
-   - **Não atuar como executores autônomos**: significa que agentes não devem tomar decisões ou realizar ações sem supervisão humana.  
-     - Não realizar commits automaticamente.  
-     - Não modificar requisitos ou arquitetura por conta própria.  
-     - Não incluir novas dependências sem aprovação.  
-   - Não propor endpoints REST.  
-   - Não sugerir separação entre backend e frontend.  
-   - Devem respeitar as tecnologias e restrições descritas neste documento.  
-
-5. **Versionamento**
-   - O projeto será versionado com Git.  
-   - Commits devem ser feitos apenas por humanos, nunca por agentes de IA.  
-
-## Diretrizes para Humanos
-- Usar **Eclipse** como IDE principal para desenvolvimento.  
-- Usar **VS Code** apenas como interface para interação com o Copilot.  
-- Garantir que todas as contribuições estejam alinhadas ao escopo e restrições deste documento.  
-
-## Diretrizes para Agentes de IA
-- Apoiar na geração de código, verificação e refino (ciclo GVR).  
-- Seguir estritamente as restrições normativas.  
-- Não propor mudanças de arquitetura ou tecnologias fora do escopo.  
-- Atuar como **assistente supervisionado**, nunca como executor autônomo.  
-
+- Não alterar/propor novos requisitos ou funcionalidades fora do escopo.
+- Não adicionar dependências sem aprovação explícita.
+- Toda manipulação de banco via `schema.sql`/`data.sql`; sem migrations automáticas.
+- IA atua **somente como suporte no ciclo GVR**, nunca como executora autônoma:
+  - sem commits automáticos (commits são só de humanos),
+  - sem mudar requisitos/arquitetura/tecnologias por conta própria,
+  - sem propor REST ou separação backend/frontend.

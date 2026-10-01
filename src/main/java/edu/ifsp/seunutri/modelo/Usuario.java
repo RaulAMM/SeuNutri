@@ -1,12 +1,10 @@
 package edu.ifsp.seunutri.modelo;
 
-import org.hibernate.annotations.ManyToAny;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,7 +12,7 @@ import jakarta.persistence.Table;
 public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int cpf;
+	private long cpf;
 	private String nome;
 	private String localizacao;
 	private int idade;
@@ -22,15 +20,14 @@ public class Usuario {
 	private String email;
 	private String sexo;
 
-	@ManyToAny
-	@JoinColumn(name = "Id_ranque")
+	@Column(name = "id_ranque")
 	private int idRanque;
 
-	public int getCpf() {
+	public long getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(int cpf) {
+	public void setCpf(long cpf) {
 		this.cpf = cpf;
 	}
 
