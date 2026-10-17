@@ -1,10 +1,14 @@
 package edu.ifsp.seunutri.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import edu.ifsp.seunutri.modelo.Ficha;
 import edu.ifsp.seunutri.modelo.Usuario;
 import edu.ifsp.seunutri.repository.UsuarioRepository;
 
@@ -12,9 +16,11 @@ import edu.ifsp.seunutri.repository.UsuarioRepository;
 public class UsuarioService {
 
 	private final UsuarioRepository usuarioRepository;
+	private final FichaService fichaService;
 
-	public UsuarioService(UsuarioRepository usuarioRepository) {
+	public UsuarioService(UsuarioRepository usuarioRepository, FichaService fichaService) {
 		this.usuarioRepository = usuarioRepository;
+		this.fichaService = fichaService;
 	}
 
 	public List<Usuario> listarTodos() {
@@ -29,7 +35,13 @@ public class UsuarioService {
 		if (usuario != null && usuarioRepository.existsById(usuario.getCpf())) {
 			throw new RuntimeException("Este usuario ja existe");
 		}
-		return usuarioRepository.save(usuario);
+		Usuario salvo = usuarioRepository.save(usuario);
+		try {
+			fichaService.gerarFicha(salvo);
+		} catch (Exception e) {
+			System.out.println("Não foi possível gerar ficha automática para o usuário " + salvo.getCpf() + ": " + e.getMessage());
+		}
+		return salvo;
 	}
 
 	public Usuario atualizarUsuario(Long id, Usuario usuario) {
@@ -42,7 +54,30 @@ public class UsuarioService {
 		existente.setEmail(usuario.getEmail());
 		existente.setSexo(usuario.getSexo());
 		existente.setIdRanque(usuario.getIdRanque());
-		return usuarioRepository.save(existente);
+		existente.setNivelAtividade(usuario.getNivelAtividade());
+		Usuario salvo = usuarioRepository.save(existente);
+		try {
+			fichaService.gerarFicha(salvo);
+		} catch (Exception e) {
+			System.out.println("Não foi possível regenerar ficha automática para o usuário " + salvo.getCpf() + ": " + e.getMessage());
+		}
+		return salvo;
+	}
+
+	public List<Usuario> listarUsuariosSemFicha() {
+		List<Usuario> todos = usuarioRepository.findAll();
+		List<Ficha> fichas = fichaService.listarTodos();
+		Set<Long> cpfsComFicha = new HashSet<>();
+		for (Ficha f : fichas) {
+			cpfsComFicha.add(f.getUsuarioCPF());
+		}
+		List<Usuario> semFicha = new ArrayList<>();
+		for (Usuario u : todos) {
+			if (!cpfsComFicha.contains(u.getCpf())) {
+				semFicha.add(u);
+			}
+		}
+		return semFicha;
 	}
 
 	public void excluirUsuario(Long id) {

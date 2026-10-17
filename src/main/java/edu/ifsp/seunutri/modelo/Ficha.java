@@ -1,26 +1,33 @@
 package edu.ifsp.seunutri.modelo;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 @Table(name = "ficha")
 public class Ficha {
-	
+
 	private int imc;
 	private double peso;
-	
+
 	@Id
 	@Column(name = "usuario_cpf")
 	private long usuarioCPF;
 
-	@Column(name = "id_prato")
-	private long idPrato;
-
-	@Column(name = "id_ranque")
-	private int idRanque;
+	@ManyToMany
+	@JoinTable(
+		name = "ficha_prato",
+		joinColumns = @JoinColumn(name = "ficha_usuario_cpf"),
+		inverseJoinColumns = @JoinColumn(name = "prato_id")
+	)
+	private List<Prato> pratos;
 
 	public int getImc() {
 		return imc;
@@ -46,21 +53,12 @@ public class Ficha {
 		this.usuarioCPF = usuarioCPF;
 	}
 
-	public long getIdPrato() {
-		return idPrato;
+	public List<Prato> getPratos() {
+		return pratos;
 	}
 
-	public void setIdPrato(long idPrato) {
-		this.idPrato = idPrato;
+	public void setPratos(List<Prato> pratos) {
+		this.pratos = pratos;
 	}
 
-	public int getIdRanque() {
-		return idRanque;
-	}
-
-	public void setIdRanque(int idRanque) {
-		this.idRanque = idRanque;
-	}
-	
-	
 }

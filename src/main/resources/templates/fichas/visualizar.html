@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ficha</title>
+</head>
+<body>
+    <h1>Ficha do Usuário</h1>
+    <p th:if="${usuario != null}"><strong>Nome:</strong> <span th:text="${usuario.nome}"></span></p>
+    <p th:if="${usuario != null}"><strong>Sexo:</strong> <span th:text="${usuario.sexo}"></span></p>
+    <p th:if="${usuario != null}"><strong>Nível de Atividade:</strong> <span th:text="${usuario.nivelAtividade}"></span></p>
+    <p><strong>Faixa Calórica Diária:</strong> <span th:text="${faixa}"></span></p>
+    <p><strong>Total de Calorias da Ficha:</strong> <span th:text="${totalCalorias}"></span> kcal</p>
+
+    <h2>Pratos da Ficha</h2>
+    <table border="1">
+        <tr>
+            <th>Nome</th><th>Calorias (kcal)</th>
+        </tr>
+        <tr th:each="prato : ${ficha.pratos}">
+            <td th:text="${prato.nome}"></td>
+            <td th:text="${prato.valorNutricional}"></td>
+        </tr>
+    </table>
+    <a th:href="@{/fichas}">Voltar</a>
+</body>
+</html>

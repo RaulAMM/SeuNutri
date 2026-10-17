@@ -20,6 +20,8 @@ public class Usuario {
 	private String email;
 	private String sexo;
 
+	private String nivelAtividade;
+
 	@Column(name = "id_ranque")
 	private int idRanque;
 
@@ -77,6 +79,14 @@ public class Usuario {
 
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
+	}
+
+	public String getNivelAtividade() {
+		return nivelAtividade;
+	}
+
+	public void setNivelAtividade(String nivelAtividade) {
+		this.nivelAtividade = nivelAtividade;
 	}
 
 	public int getIdRanque() {

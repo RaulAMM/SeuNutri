@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `SeuNutri`.`usuario` (
   `peso` DOUBLE NOT NULL,
   `email` VARCHAR(255) NOT NULL,
   `sexo` VARCHAR(255) NOT NULL,
+  `nivel_atividade` VARCHAR(255) NULL,
   `id_ranque` INT NOT NULL,
   PRIMARY KEY (`cpf`),
   CONSTRAINT `fk_Usuario_Ranque1`
@@ -46,25 +47,29 @@ CREATE TABLE IF NOT EXISTS `SeuNutri`.`ficha` (
   `imc` INT NOT NULL,
   `peso` DOUBLE NOT NULL,
   `usuario_cpf` BIGINT NOT NULL,
-  `id_prato` BIGINT NOT NULL,
-  `id_ranque` INT NOT NULL,
   PRIMARY KEY (`usuario_cpf`),
   CONSTRAINT `fk_Ficha_Usuario`
     FOREIGN KEY (`usuario_cpf`)
     REFERENCES `SeuNutri`.`usuario` (`cpf`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Ficha_Prato1`
-    FOREIGN KEY (`id_prato`)
-    REFERENCES `SeuNutri`.`prato` (`id`)
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+-- Tabela de junção entre ficha e prato (conjunto de pratos da ficha)
+CREATE TABLE IF NOT EXISTS `SeuNutri`.`ficha_prato` (
+  `ficha_usuario_cpf` BIGINT NOT NULL,
+  `prato_id` BIGINT NOT NULL,
+  PRIMARY KEY (`ficha_usuario_cpf`, `prato_id`),
+  CONSTRAINT `fk_FichaPrato_Ficha`
+    FOREIGN KEY (`ficha_usuario_cpf`)
+    REFERENCES `SeuNutri`.`ficha` (`usuario_cpf`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Ficha_Ranque1`
-    FOREIGN KEY (`id_ranque`)
-    REFERENCES `SeuNutri`.`ranque` (`id`)
+  CONSTRAINT `fk_FichaPrato_Prato`
+    FOREIGN KEY (`prato_id`)
+    REFERENCES `SeuNutri`.`prato` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
-CREATE INDEX `fk_Ficha_Prato1_idx` ON `SeuNutri`.`ficha` (`id_prato` ASC);
-CREATE INDEX `fk_Ficha_Ranque1_idx` ON `SeuNutri`.`ficha` (`id_ranque` ASC);
+CREATE INDEX `fk_FichaPrato_Prato_idx` ON `SeuNutri`.`ficha_prato` (`prato_id` ASC);

@@ -7,21 +7,36 @@
 <body>
     <h1>Fichas</h1>
     <p th:if="${erro}" th:text="${erro}" style="color:red"></p>
-    <a th:href="@{/fichas/novo}">Nova Ficha</a>
+    <p th:if="${mensagem}" th:text="${mensagem}" style="color:green"></p>
     <table border="1">
         <tr>
-            <th>IMC</th><th>Peso</th><th>CPF Usuário</th><th>ID Prato</th><th>ID Ranque</th><th>Ações</th>
+            <th>Usuário</th><th>Faixa Calórica</th><th>Total de Calorias</th><th>Ações</th>
         </tr>
         <tr th:each="ficha : ${fichas}">
-            <td th:text="${ficha.imc}"></td>
-            <td th:text="${ficha.peso}"></td>
-            <td th:text="${ficha.usuarioCPF}"></td>
-            <td th:text="${ficha.idPrato}"></td>
-            <td th:text="${ficha.idRanque}"></td>
             <td>
-                <a th:href="@{/fichas/{id}/editar(id=${ficha.usuarioCPF})}">Editar</a>
-                <form th:action="@{/fichas/{id}/excluir(id=${ficha.usuarioCPF})}" method="post" style="display:inline">
-                    <button type="submit">Excluir</button>
+                <span th:each="usuario : ${usuarios}" th:if="${usuario.cpf} == ${ficha.usuarioCPF}" th:text="${usuario.nome}"></span>
+            </td>
+            <td th:text="${faixas[ficha.usuarioCPF]}"></td>
+            <td th:text="${totais[ficha.usuarioCPF]}"></td>
+            <td>
+                <a th:href="@{/fichas/visualizar/{id}(id=${ficha.usuarioCPF})}">Ver</a>
+            </td>
+        </tr>
+    </table>
+
+    <h2>Usuários sem ficha</h2>
+    <table border="1">
+        <tr>
+            <th>Usuário</th><th>Idade</th><th>Sexo</th><th>Nível de Atividade</th><th>Ação</th>
+        </tr>
+        <tr th:each="usuario : ${usuariosSemFicha}">
+            <td th:text="${usuario.nome}"></td>
+            <td th:text="${usuario.idade}"></td>
+            <td th:text="${usuario.sexo}"></td>
+            <td th:text="${usuario.nivelAtividade}"></td>
+            <td>
+                <form th:action="@{/fichas/gerar/{id}(id=${usuario.cpf})}" method="post" style="display:inline">
+                    <button type="submit">Gerar ficha</button>
                 </form>
             </td>
         </tr>
