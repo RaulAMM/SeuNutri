@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Seu Nutri - Início</title>
+</head>
+<body>
+    <h1>Seu Nutri</h1>
+    <p>Bem-vindo ao Seu Nutri. Escolha um dos módulos abaixo:</p>
+    <ul>
+        <li><a th:href="@{/pratos}">Pratos</a></li>
+        <li><a th:href="@{/usuarios}">Usuários</a></li>
+        <li><a th:href="@{/ranques}">Ranques</a></li>
+        <li><a th:href="@{/fichas}">Fichas</a></li>
+    </ul>
+</body>
+</html>

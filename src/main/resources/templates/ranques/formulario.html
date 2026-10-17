@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ranque</title>
+</head>
+<body>
+    <h1 th:text="${ranque.id} != 0 ? 'Editar Ranque' : 'Novo Ranque'"></h1>
+    <form th:action="${ranque.id} != 0 ? '/ranques/' + ${ranque.id} : '/ranques'" th:object="${ranque}" method="post">
+        <label>IMC: <input type="number" th:field="*{imc}" required/></label><br/>
+        <label>Pontuação: <input type="number" step="0.1" th:field="*{pontuacao}" required/></label><br/>
+        <label>Ranque: <input type="text" th:field="*{ranquecol}" required/></label><br/>
+        <button type="submit">Salvar</button>
+    </form>
+    <a th:href="@{/ranques}">Voltar</a>
+</body>
+</html>

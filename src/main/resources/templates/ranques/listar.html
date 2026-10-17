@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ranques</title>
+</head>
+<body>
+    <h1>Ranques</h1>
+    <p th:if="${erro}" th:text="${erro}" style="color:red"></p>
+    <a th:href="@{/ranques/novo}">Novo Ranque</a>
+    <table border="1">
+        <tr>
+            <th>ID</th><th>IMC</th><th>Pontuação</th><th>Ranque</th><th>Ações</th>
+        </tr>
+        <tr th:each="ranque : ${ranques}">
+            <td th:text="${ranque.id}"></td>
+            <td th:text="${ranque.imc}"></td>
+            <td th:text="${ranque.pontuacao}"></td>
+            <td th:text="${ranque.ranquecol}"></td>
+            <td>
+                <a th:href="@{/ranques/{id}/editar(id=${ranque.id})}">Editar</a>
+                <form th:action="@{/ranques/{id}/excluir(id=${ranque.id})}" method="post" style="display:inline">
+                    <button type="submit">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

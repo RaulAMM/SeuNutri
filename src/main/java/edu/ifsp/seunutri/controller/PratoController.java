@@ -40,7 +40,7 @@ public class PratoController {
 	}
 
 	@GetMapping("/{id}/editar")
-	public String formularioEditar(@PathVariable Long id, Model model) {
+	public String formularioEditar(@PathVariable("id") Long id, Model model) {
 		Prato prato = pratoService.buscarPorId(id)
 			.orElseThrow(() -> new RuntimeException("ID não encontrado!"));
 		model.addAttribute("prato", prato);
@@ -48,13 +48,13 @@ public class PratoController {
 	}
 
 	@PostMapping("/{id}")
-	public String atualizar(@PathVariable Long id, @ModelAttribute Prato prato) {
+	public String atualizar(@PathVariable("id") Long id, @ModelAttribute Prato prato) {
 		pratoService.atualizarPrato(id, prato);
 		return "redirect:/pratos";
 	}
 
 	@PostMapping("/{id}/excluir")
-	public String excluir(@PathVariable Long id, org.springframework.ui.Model model) {
+	public String excluir(@PathVariable("id") Long id, Model model) {
 		try {
 			pratoService.excluirPrato(id);
 		} catch (IllegalStateException e) {

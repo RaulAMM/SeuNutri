@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuário</title>
+</head>
+<body>
+    <h1 th:text="${usuario.cpf} != 0 ? 'Editar Usuário' : 'Novo Usuário'"></h1>
+    <form th:action="${usuario.cpf} != 0 ? '/usuarios/' + ${usuario.cpf} : '/usuarios'" th:object="${usuario}" method="post">
+        <label>Nome: <input type="text" th:field="*{nome}" required/></label><br/>
+        <label>Localização: <input type="text" th:field="*{localizacao}" required/></label><br/>
+        <label>Idade: <input type="number" th:field="*{idade}" required/></label><br/>
+        <label>Peso: <input type="number" step="0.1" th:field="*{peso}" required/></label><br/>
+        <label>Email: <input type="email" th:field="*{email}" required/></label><br/>
+        <label>Sexo: <input type="text" th:field="*{sexo}" required/></label><br/>
+        <label>ID Ranque: <input type="number" th:field="*{idRanque}" required/></label><br/>
+        <button type="submit">Salvar</button>
+    </form>
+    <a th:href="@{/usuarios}">Voltar</a>
+</body>
+</html>

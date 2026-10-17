@@ -6,11 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "prato")
 public class Prato {
@@ -24,6 +20,17 @@ public class Prato {
 	@Column(name = "valor_nutricional")
 	private float valorNutricional;
 	private String receita;
+
+	public Prato() {
+	}
+
+	public Prato(Long id, String nome, String ingredientes, float valorNutricional, String receita) {
+		this.id = id;
+		this.nome = nome;
+		this.ingredientes = ingredientes;
+		this.valorNutricional = valorNutricional;
+		this.receita = receita;
+	}
 
 	public Long getId() {
 		return id;

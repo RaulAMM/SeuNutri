@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuários</title>
+</head>
+<body>
+    <h1>Usuários</h1>
+    <p th:if="${erro}" th:text="${erro}" style="color:red"></p>
+    <a th:href="@{/usuarios/novo}">Novo Usuário</a>
+    <table border="1">
+        <tr>
+            <th>CPF</th><th>Nome</th><th>Localização</th><th>Idade</th><th>Peso</th><th>Email</th><th>Sexo</th><th>ID Ranque</th><th>Ações</th>
+        </tr>
+        <tr th:each="usuario : ${usuarios}">
+            <td th:text="${usuario.cpf}"></td>
+            <td th:text="${usuario.nome}"></td>
+            <td th:text="${usuario.localizacao}"></td>
+            <td th:text="${usuario.idade}"></td>
+            <td th:text="${usuario.peso}"></td>
+            <td th:text="${usuario.email}"></td>
+            <td th:text="${usuario.sexo}"></td>
+            <td th:text="${usuario.idRanque}"></td>
+            <td>
+                <a th:href="@{/usuarios/{id}/editar(id=${usuario.cpf})}">Editar</a>
+                <form th:action="@{/usuarios/{id}/excluir(id=${usuario.cpf})}" method="post" style="display:inline">
+                    <button type="submit">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

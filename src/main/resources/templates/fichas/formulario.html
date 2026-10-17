@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ficha</title>
+</head>
+<body>
+    <h1 th:text="${ficha.usuarioCPF} != 0 ? 'Editar Ficha' : 'Nova Ficha'"></h1>
+    <form th:action="${ficha.usuarioCPF} != 0 ? '/fichas/' + ${ficha.usuarioCPF} : '/fichas'" th:object="${ficha}" method="post">
+        <label>IMC: <input type="number" th:field="*{imc}" required/></label><br/>
+        <label>Peso: <input type="number" step="0.1" th:field="*{peso}" required/></label><br/>
+        <label>CPF Usuário: <input type="number" th:field="*{usuarioCPF}" required/></label><br/>
+        <label>ID Prato: <input type="number" th:field="*{idPrato}" required/></label><br/>
+        <label>ID Ranque: <input type="number" th:field="*{idRanque}" required/></label><br/>
+        <button type="submit">Salvar</button>
+    </form>
+    <a th:href="@{/fichas}">Voltar</a>
+</body>
+</html>
