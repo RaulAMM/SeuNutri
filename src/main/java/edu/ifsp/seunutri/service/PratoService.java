@@ -1,5 +1,7 @@
 package edu.ifsp.seunutri.service;
 
+import java.text.Normalizer;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +21,39 @@ public class PratoService {
 
 	public List<Prato> listarTodos() {
 		return pratoRepository.findAll();
+	}
+
+	public List<Prato> listarFiltrados(String nome, String ingredientesEvitar) {
+		List<Prato> todos = pratoRepository.findAll();
+		String nomeNormalizado = normalizar(nome);
+		List<String> evitar = separarIngredientes(ingredientesEvitar);
+
+		return todos.stream()
+			.filter(prato -> nomeNormalizado.isEmpty()
+				|| normalizar(prato.getNome()).contains(nomeNormalizado))
+			.filter(prato -> evitar.isEmpty()
+				|| evitar.stream().noneMatch(ev
+					-> normalizar(prato.getIngredientes()).contains(ev)))
+			.toList();
+	}
+
+	private String normalizar(String texto) {
+		if (texto == null) {
+			return "";
+		}
+		return Normalizer.normalize(texto.toLowerCase().trim(), Normalizer.Form.NFD)
+			.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+	}
+
+	private List<String> separarIngredientes(String texto) {
+		if (texto == null || texto.isBlank()) {
+			return List.of();
+		}
+		return Arrays.stream(texto.split(","))
+			.map(String::trim)
+			.filter(s -> !s.isEmpty())
+			.map(this::normalizar)
+			.toList();
 	}
 
 	public Optional<Prato> buscarPorId(Long id) {

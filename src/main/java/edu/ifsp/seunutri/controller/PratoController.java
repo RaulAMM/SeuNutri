@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.ifsp.seunutri.modelo.Prato;
 import edu.ifsp.seunutri.service.PratoService;
@@ -22,8 +23,12 @@ public class PratoController {
 	}
 
 	@GetMapping
-	public String listar(Model model) {
-		model.addAttribute("pratos", pratoService.listarTodos());
+	public String listar(Model model,
+			@RequestParam(name = "nome", required = false) String nome,
+			@RequestParam(name = "ingredientesEvitar", required = false) String ingredientesEvitar) {
+		model.addAttribute("pratos", pratoService.listarFiltrados(nome, ingredientesEvitar));
+		model.addAttribute("nome", nome == null ? "" : nome);
+		model.addAttribute("ingredientesEvitar", ingredientesEvitar == null ? "" : ingredientesEvitar);
 		return "pratos/listar";
 	}
 
@@ -34,7 +39,7 @@ public class PratoController {
 	}
 
 	@PostMapping
-	public String salvar(@ModelAttribute Prato prato) {
+	public String salvar(@ModelAttribute("prato") Prato prato) {
 		pratoService.salvarPrato(prato);
 		return "redirect:/pratos";
 	}
@@ -48,7 +53,7 @@ public class PratoController {
 	}
 
 	@PostMapping("/{id}")
-	public String atualizar(@PathVariable("id") Long id, @ModelAttribute Prato prato) {
+	public String atualizar(@PathVariable("id") Long id, @ModelAttribute("prato") Prato prato) {
 		pratoService.atualizarPrato(id, prato);
 		return "redirect:/pratos";
 	}

@@ -8,6 +8,18 @@
     <h1>Pratos</h1>
     <p th:if="${erro}" th:text="${erro}" style="color:red"></p>
     <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/pratos/novo}">Novo Prato</a>
+
+    <form th:action="@{/pratos}" method="get" style="margin-bottom:15px">
+        <label for="nome">Nome do prato:</label>
+        <input type="text" id="nome" name="nome" th:value="${nome}" />
+        <label for="ingredientesEvitar">Ingredientes a evitar (separados por vírgula):</label>
+        <input type="text" id="ingredientesEvitar" name="ingredientesEvitar" th:value="${ingredientesEvitar}" />
+        <button type="submit">Buscar</button>
+        <a th:href="@{/pratos}">Limpar filtros</a>
+    </form>
+
+    <p th:if="${#lists.isEmpty(pratos)}" style="color:red">Nenhum prato encontrado</p>
+
     <table border="1">
         <tr>
             <th>ID</th><th>Nome</th><th>Ingredientes</th><th>Valor Nutricional</th><th>Receita</th><th>Ações</th>
@@ -26,5 +38,6 @@
             </td>
         </tr>
     </table>
+    <a th:href="@{/}">Voltar para a Home</a>
 </body>
 </html>

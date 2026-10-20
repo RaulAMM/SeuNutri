@@ -20,5 +20,6 @@
     </form>
     <a th:if="${usuario.cpf} != 0" th:href="@{/usuarios}">Voltar</a>
     <a th:if="${usuario.cpf} == 0" th:href="@{/login}">Voltar ao login</a>
+    <a th:href="@{/}">Voltar para a Home</a>
 </body>
 </html>

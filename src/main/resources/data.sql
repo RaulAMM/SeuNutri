@@ -1,7 +1,7 @@
 -- Dados iniciais para o banco de dados SeuNutri
 
 -- Tabela `ranque`
-INSERT INTO `SeuNutri`.`ranque` (`imc`, `id`, `pontuacao`, `ranquecol`) VALUES
+INSERT IGNORE INTO `SeuNutri`.`ranque` (`imc`, `id`, `pontuacao`, `ranquecol`) VALUES
 (18, 1, 3.5, 'Abaixo do peso'),
 (22, 2, 5.0, 'Peso normal'),
 (27, 3, 2.0, 'Sobrepeso'),
@@ -9,7 +9,7 @@ INSERT INTO `SeuNutri`.`ranque` (`imc`, `id`, `pontuacao`, `ranquecol`) VALUES
 (38, 5, 0.5, 'Obesidade grau II');
 
 -- Tabela `usuario`
-INSERT INTO `SeuNutri`.`usuario` (`cpf`, `nome`, `localizacao`, `idade`, `peso`, `email`, `sexo`, `nivel_atividade`, `id_ranque`, `senha`, `papel`) VALUES
+INSERT IGNORE INTO `SeuNutri`.`usuario` (`cpf`, `nome`, `localizacao`, `idade`, `peso`, `email`, `sexo`, `nivel_atividade`, `id_ranque`, `senha`, `papel`) VALUES
 (12345678901, 'Ana Souza', 'São Carlos - SP', 25, 58.5, 'ana.souza@email.com', 'F', 'sedentaria', 2, 'Ylb6HWjYjVHsjz/XqeHCMg==:mBVFeXK6zbpby3ysVSSTXaPVJsDKxvC2oICd1byXpws=', 'USUARIO'),
 (98765432100, 'Bruno Lima', 'Araraquara - SP', 31, 82.0, 'bruno.lima@email.com', 'M', 'sedentario', 3, 'Ylb6HWjYjVHsjz/XqeHCMg==:mBVFeXK6zbpby3ysVSSTXaPVJsDKxvC2oICd1byXpws=', 'USUARIO'),
 (45678912345, 'Carla Mendes', 'São Carlos - SP', 19, 47.0, 'carla.mendes@email.com', 'F', 'sedentaria', 1, 'Ylb6HWjYjVHsjz/XqeHCMg==:mBVFeXK6zbpby3ysVSSTXaPVJsDKxvC2oICd1byXpws=', 'USUARIO'),
@@ -18,7 +18,7 @@ INSERT INTO `SeuNutri`.`usuario` (`cpf`, `nome`, `localizacao`, `idade`, `peso`,
 (99999999999, 'Sistema', 'Sistema - SP', 30, 70.0, 'sys@exemplo.com', 'M', 'ativo', 2, 'aHkWchEEsTpoA+HNQdNNAg==:Ieq/7h9968XaFv82UofFbWTiWZStg3ZIvDdsoKyENcY=', 'ADMIN');
 
 -- Tabela `prato`
-INSERT INTO `SeuNutri`.`prato` (`id`, `nome`, `ingredientes`, `valor_nutricional`, `receita`) VALUES
+INSERT IGNORE INTO `SeuNutri`.`prato` (`id`, `nome`, `ingredientes`, `valor_nutricional`, `receita`) VALUES
 (1, 'Salada de Quinoa', 'Quinoa, tomate, pepino, azeite', 320.5, 'Cozinhar a quinoa e misturar aos vegetais picados com azeite.'),
 (2, 'Frango Grelhado com Legumes', 'Peito de frango, brócolis, cenoura', 450.0, 'Grelhar o frango e cozinhar os legumes no vapor.'),
 (3, 'Omelete de Espinafre', 'Ovos, espinafre, queijo branco', 280.0, 'Bater os ovos, adicionar espinafre refogado e queijo.'),
@@ -42,7 +42,7 @@ INSERT INTO `SeuNutri`.`prato` (`id`, `nome`, `ingredientes`, `valor_nutricional
 -- ============================================
 
 -- Tabela `ranque` (novos ids 6-65)
-INSERT INTO `SeuNutri`.`ranque` (`imc`, `id`, `pontuacao`, `ranquecol`) VALUES
+INSERT IGNORE INTO `SeuNutri`.`ranque` (`imc`, `id`, `pontuacao`, `ranquecol`) VALUES
 (16, 6, 0.1, 'Abaixo do peso'),
 (45, 7, 3.8, 'Obesidade grau III'),
 (44, 8, 1.9, 'Obesidade grau III'),
@@ -105,7 +105,7 @@ INSERT INTO `SeuNutri`.`ranque` (`imc`, `id`, `pontuacao`, `ranquecol`) VALUES
 (17, 65, 3.9, 'Abaixo do peso');
 
 -- Tabela `prato` (novos ids 16-55)
-INSERT INTO `SeuNutri`.`prato` (`id`, `nome`, `ingredientes`, `valor_nutricional`, `receita`) VALUES
+INSERT IGNORE INTO `SeuNutri`.`prato` (`id`, `nome`, `ingredientes`, `valor_nutricional`, `receita`) VALUES
 (16, 'Sopa de Abóbora com Gengibre', 'Abóbora, gengibre, cebola, azeite', 160, 'Cozinhar a abóbora com gengibre e cebola, bater com azeite.'),
 (17, 'Wrap de Frango com Abacate', 'Tortilla integral, frango, abacate, alface', 420, 'Rechear a tortilla com frango desfiado, abacate e alface.'),
 (18, 'Quinoa com Legumes Assados', 'Quinoa, abobrinha, cenoura, pimentão', 340, 'Cozinhar a quinoa e misturar com legumes assados no forno.'),
@@ -148,7 +148,7 @@ INSERT INTO `SeuNutri`.`prato` (`id`, `nome`, `ingredientes`, `valor_nutricional
 (55, 'Sopa de Mandioquinha com Bacon', 'Mandioca, bacon, alho-poró, creme de leite', 490, 'Cozinhar mandioquinha com bacon, bater com creme de leite.');
 
 -- Tabela `usuario` (novos cpfs 30000000001-30000000060)
-INSERT INTO `SeuNutri`.`usuario` (`cpf`, `nome`, `localizacao`, `idade`, `peso`, `email`, `sexo`, `nivel_atividade`, `id_ranque`, `senha`, `papel`) VALUES
+INSERT IGNORE INTO `SeuNutri`.`usuario` (`cpf`, `nome`, `localizacao`, `idade`, `peso`, `email`, `sexo`, `nivel_atividade`, `id_ranque`, `senha`, `papel`) VALUES
 (30000000001, 'Ana Paula', 'São Paulo - SP', 19, 50, 'anapaula0@exemplo.com', 'F', 'sedentaria', 6, 'Ylb6HWjYjVHsjz/XqeHCMg==:mBVFeXK6zbpby3ysVSSTXaPVJsDKxvC2oICd1byXpws=', 'USUARIO'),
 (30000000002, 'Beatriz Costa', 'Campinas - SP', 60, 73.5, 'beatrizcosta1@exemplo.com', 'F', 'sedentaria', 7, 'Ylb6HWjYjVHsjz/XqeHCMg==:mBVFeXK6zbpby3ysVSSTXaPVJsDKxvC2oICd1byXpws=', 'USUARIO'),
 (30000000003, 'Carla Dias', 'Ribeirão Preto - SP', 59, 97, 'carladias2@exemplo.com', 'F', 'sedentaria', 8, 'Ylb6HWjYjVHsjz/XqeHCMg==:mBVFeXK6zbpby3ysVSSTXaPVJsDKxvC2oICd1byXpws=', 'USUARIO'),
@@ -211,7 +211,7 @@ INSERT INTO `SeuNutri`.`usuario` (`cpf`, `nome`, `localizacao`, `idade`, `peso`,
 (30000000060, 'Lucas Santos', 'Presidente Prudente - SP', 42, 111.7, 'lucassantos29@exemplo.com', 'M', 'ativo', 65, 'Ylb6HWjYjVHsjz/XqeHCMg==:mBVFeXK6zbpby3ysVSSTXaPVJsDKxvC2oICd1byXpws=', 'USUARIO');
 
 -- Tabela `ficha` (fichas para os 60 usuarios novos)
-INSERT INTO `SeuNutri`.`ficha` (`imc`, `peso`, `usuario_cpf`) VALUES
+INSERT IGNORE INTO `SeuNutri`.`ficha` (`imc`, `peso`, `usuario_cpf`) VALUES
 (0, 50, 30000000001),
 (0, 73.5, 30000000002),
 (0, 97, 30000000003),
@@ -274,7 +274,7 @@ INSERT INTO `SeuNutri`.`ficha` (`imc`, `peso`, `usuario_cpf`) VALUES
 (0, 111.7, 30000000060);
 
 -- Tabela `ficha_prato` (pratos de cada ficha)
-INSERT INTO `SeuNutri`.`ficha_prato` (`ficha_usuario_cpf`, `prato_id`) VALUES
+INSERT IGNORE INTO `SeuNutri`.`ficha_prato` (`ficha_usuario_cpf`, `prato_id`) VALUES
 (30000000001, 48),
 (30000000001, 39),
 (30000000001, 27),

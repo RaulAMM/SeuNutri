@@ -14,5 +14,6 @@
         <button type="submit" th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}">Salvar</button>
     </form>
     <a th:href="@{/pratos}">Voltar</a>
+    <a th:href="@{/}">Voltar para a Home</a>
 </body>
 </html>

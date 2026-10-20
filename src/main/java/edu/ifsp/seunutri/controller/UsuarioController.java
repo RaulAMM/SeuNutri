@@ -43,7 +43,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping
-	public String salvar(@ModelAttribute Usuario usuario) {
+	public String salvar(@ModelAttribute("usuario") Usuario usuario) {
 		usuarioService.salvarUsuario(usuario);
 		return "redirect:/usuarios";
 	}
@@ -61,7 +61,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/{id}")
-	public String atualizar(@PathVariable("id") Long id, @ModelAttribute Usuario usuario, HttpSession session) {
+	public String atualizar(@PathVariable("id") Long id, @ModelAttribute("usuario") Usuario usuario, HttpSession session) {
 		Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 		if (usuarioLogado == null || (!"ADMIN".equals(usuarioLogado.getPapel()) && usuarioLogado.getCpf() != id)) {
 			return "redirect:/usuarios";

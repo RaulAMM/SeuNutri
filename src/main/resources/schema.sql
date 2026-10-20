@@ -32,8 +32,6 @@ CREATE TABLE IF NOT EXISTS `SeuNutri`.`usuario` (
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
-CREATE INDEX `fk_Usuario_Ranque1_idx` ON `SeuNutri`.`usuario` (`id_ranque` ASC);
-
 -- Table `prato`
 CREATE TABLE IF NOT EXISTS `SeuNutri`.`prato` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -74,4 +72,4 @@ CREATE TABLE IF NOT EXISTS `SeuNutri`.`ficha_prato` (
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
-CREATE INDEX `fk_FichaPrato_Prato_idx` ON `SeuNutri`.`ficha_prato` (`prato_id` ASC);
+

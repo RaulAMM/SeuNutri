@@ -75,7 +75,7 @@ public class RanqueController {
 	}
 
 	@PostMapping
-	public String salvar(@ModelAttribute Ranque ranque, HttpSession session) {
+	public String salvar(@ModelAttribute("ranque") Ranque ranque, HttpSession session) {
 		Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 		if (usuarioLogado == null || !"ADMIN".equals(usuarioLogado.getPapel())) {
 			return "redirect:/ranques";
@@ -97,7 +97,7 @@ public class RanqueController {
 	}
 
 	@PostMapping("/{id}")
-	public String atualizar(@PathVariable("id") Integer id, @ModelAttribute Ranque ranque, HttpSession session) {
+	public String atualizar(@PathVariable("id") Integer id, @ModelAttribute("ranque") Ranque ranque, HttpSession session) {
 		Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 		if (usuarioLogado == null || !"ADMIN".equals(usuarioLogado.getPapel())) {
 			return "redirect:/ranques";
