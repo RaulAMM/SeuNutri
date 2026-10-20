@@ -24,22 +24,30 @@
         </tr>
     </table>
 
-    <h2>Usuários sem ficha</h2>
-    <table border="1">
-        <tr>
-            <th>Usuário</th><th>Idade</th><th>Sexo</th><th>Nível de Atividade</th><th>Ação</th>
-        </tr>
-        <tr th:each="usuario : ${usuariosSemFicha}">
-            <td th:text="${usuario.nome}"></td>
-            <td th:text="${usuario.idade}"></td>
-            <td th:text="${usuario.sexo}"></td>
-            <td th:text="${usuario.nivelAtividade}"></td>
-            <td>
-                <form th:action="@{/fichas/gerar/{id}(id=${usuario.cpf})}" method="post" style="display:inline">
-                    <button type="submit">Gerar ficha</button>
-                </form>
-            </td>
-        </tr>
-    </table>
+    <div th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}">
+        <h2>Usuários sem ficha</h2>
+        <table border="1">
+            <tr>
+                <th>Usuário</th><th>Idade</th><th>Sexo</th><th>Nível de Atividade</th><th>Ação</th>
+            </tr>
+            <tr th:each="usuario : ${usuariosSemFicha}">
+                <td th:text="${usuario.nome}"></td>
+                <td th:text="${usuario.idade}"></td>
+                <td th:text="${usuario.sexo}"></td>
+                <td th:text="${usuario.nivelAtividade}"></td>
+                <td>
+                    <form th:action="@{/fichas/gerar/{id}(id=${usuario.cpf})}" method="post" style="display:inline">
+                        <button type="submit">Gerar ficha</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO' and fichas.isEmpty()}">
+        <form th:action="@{/fichas/gerar/{id}(id=${session.usuarioLogado.cpf})}" method="post" style="display:inline">
+            <button type="submit">Gerar ficha</button>
+        </form>
+    </div>
 </body>
 </html>

@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS `SeuNutri`.`usuario` (
   `sexo` VARCHAR(255) NOT NULL,
   `nivel_atividade` VARCHAR(255) NULL,
   `id_ranque` INT NOT NULL,
+  `senha` VARCHAR(255) NOT NULL,
+  `papel` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`cpf`),
   CONSTRAINT `fk_Usuario_Ranque1`
     FOREIGN KEY (`id_ranque`)

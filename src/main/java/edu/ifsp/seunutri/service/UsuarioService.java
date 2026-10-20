@@ -11,16 +11,19 @@ import org.springframework.stereotype.Service;
 import edu.ifsp.seunutri.modelo.Ficha;
 import edu.ifsp.seunutri.modelo.Usuario;
 import edu.ifsp.seunutri.repository.UsuarioRepository;
+import edu.ifsp.seunutri.security.SenhaService;
 
 @Service
 public class UsuarioService {
 
 	private final UsuarioRepository usuarioRepository;
 	private final FichaService fichaService;
+	private final SenhaService senhaService;
 
-	public UsuarioService(UsuarioRepository usuarioRepository, FichaService fichaService) {
+	public UsuarioService(UsuarioRepository usuarioRepository, FichaService fichaService, SenhaService senhaService) {
 		this.usuarioRepository = usuarioRepository;
 		this.fichaService = fichaService;
+		this.senhaService = senhaService;
 	}
 
 	public List<Usuario> listarTodos() {
@@ -35,6 +38,10 @@ public class UsuarioService {
 		if (usuario != null && usuarioRepository.existsById(usuario.getCpf())) {
 			throw new RuntimeException("Este usuario ja existe");
 		}
+		if (usuario.getSenha() != null && !usuario.getSenha().isEmpty()) {
+			usuario.setSenha(senhaService.hash(usuario.getSenha()));
+		}
+		usuario.setPapel("USUARIO");
 		Usuario salvo = usuarioRepository.save(usuario);
 		try {
 			fichaService.gerarFicha(salvo);
@@ -55,6 +62,9 @@ public class UsuarioService {
 		existente.setSexo(usuario.getSexo());
 		existente.setIdRanque(usuario.getIdRanque());
 		existente.setNivelAtividade(usuario.getNivelAtividade());
+		if (usuario.getSenha() != null && !usuario.getSenha().isEmpty()) {
+			existente.setSenha(senhaService.hash(usuario.getSenha()));
+		}
 		Usuario salvo = usuarioRepository.save(existente);
 		try {
 			fichaService.gerarFicha(salvo);

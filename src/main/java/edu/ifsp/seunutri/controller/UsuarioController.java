@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 import edu.ifsp.seunutri.modelo.Usuario;
 import edu.ifsp.seunutri.service.UsuarioService;
@@ -22,8 +24,15 @@ public class UsuarioController {
 	}
 
 	@GetMapping
-	public String listar(Model model) {
-		model.addAttribute("usuarios", usuarioService.listarTodos());
+	public String listar(Model model, HttpSession session) {
+		Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+		List<Usuario> todos = usuarioService.listarTodos();
+		if (usuarioLogado != null && !"ADMIN".equals(usuarioLogado.getPapel())) {
+			todos = todos.stream()
+				.filter(u -> u.getCpf() == usuarioLogado.getCpf())
+				.toList();
+		}
+		model.addAttribute("usuarios", todos);
 		return "usuarios/listar";
 	}
 
@@ -40,7 +49,11 @@ public class UsuarioController {
 	}
 
 	@GetMapping("/{id}/editar")
-	public String formularioEditar(@PathVariable("id") Long id, Model model) {
+	public String formularioEditar(@PathVariable("id") Long id, Model model, HttpSession session) {
+		Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+		if (usuarioLogado == null || (!"ADMIN".equals(usuarioLogado.getPapel()) && usuarioLogado.getCpf() != id)) {
+			return "redirect:/usuarios";
+		}
 		Usuario usuario = usuarioService.buscarPorId(id)
 			.orElseThrow(() -> new RuntimeException("ID não encontrado!"));
 		model.addAttribute("usuario", usuario);
@@ -48,13 +61,21 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/{id}")
-	public String atualizar(@PathVariable("id") Long id, @ModelAttribute Usuario usuario) {
+	public String atualizar(@PathVariable("id") Long id, @ModelAttribute Usuario usuario, HttpSession session) {
+		Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+		if (usuarioLogado == null || (!"ADMIN".equals(usuarioLogado.getPapel()) && usuarioLogado.getCpf() != id)) {
+			return "redirect:/usuarios";
+		}
 		usuarioService.atualizarUsuario(id, usuario);
 		return "redirect:/usuarios";
 	}
 
 	@PostMapping("/{id}/excluir")
-	public String excluir(@PathVariable("id") Long id, Model model) {
+	public String excluir(@PathVariable("id") Long id, Model model, HttpSession session) {
+		Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+		if (usuarioLogado == null || !"ADMIN".equals(usuarioLogado.getPapel())) {
+			return "redirect:/usuarios";
+		}
 		try {
 			usuarioService.excluirUsuario(id);
 		} catch (IllegalStateException e) {

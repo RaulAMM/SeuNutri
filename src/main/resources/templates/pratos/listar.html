@@ -7,7 +7,7 @@
 <body>
     <h1>Pratos</h1>
     <p th:if="${erro}" th:text="${erro}" style="color:red"></p>
-    <a th:href="@{/pratos/novo}">Novo Prato</a>
+    <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/pratos/novo}">Novo Prato</a>
     <table border="1">
         <tr>
             <th>ID</th><th>Nome</th><th>Ingredientes</th><th>Valor Nutricional</th><th>Receita</th><th>Ações</th>
@@ -19,8 +19,8 @@
             <td th:text="${prato.valorNutricional}"></td>
             <td th:text="${prato.receita}"></td>
             <td>
-                <a th:href="@{/pratos/{id}/editar(id=${prato.id})}">Editar</a>
-                <form th:action="@{/pratos/{id}/excluir(id=${prato.id})}" method="post" style="display:inline">
+                <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/pratos/{id}/editar(id=${prato.id})}">Editar</a>
+                <form th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:action="@{/pratos/{id}/excluir(id=${prato.id})}" method="post" style="display:inline">
                     <button type="submit">Excluir</button>
                 </form>
             </td>

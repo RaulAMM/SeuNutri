@@ -2,17 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Ranques</title>
+    <title>Ranque</title>
 </head>
 <body>
-    <h1>Ranques</h1>
+    <h1 th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}">Ranques</h1>
+    <h1 th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}">Ranque - <span th:text="${grupo}"></span></h1>
     <p th:if="${erro}" th:text="${erro}" style="color:red"></p>
-    <a th:href="@{/ranques/novo}">Novo Ranque</a>
+    <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/ranques/novo}">Novo Ranque</a>
     <table border="1">
-        <tr>
+        <tr th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}">
             <th>ID</th><th>IMC</th><th>Pontuação</th><th>Ranque</th><th>Ações</th>
         </tr>
-        <tr th:each="ranque : ${ranques}">
+        <tr th:each="ranque : ${ranques}" th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}">
             <td th:text="${ranque.id}"></td>
             <td th:text="${ranque.imc}"></td>
             <td th:text="${ranque.pontuacao}"></td>
@@ -23,6 +24,14 @@
                     <button type="submit">Excluir</button>
                 </form>
             </td>
+        </tr>
+        <tr th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}">
+            <th>Posição</th><th>Nome</th><th>Pontuação</th>
+        </tr>
+        <tr th:each="usuario, stat : ${usuariosDoGrupo}" th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}">
+            <td th:text="${stat.index + 1}"></td>
+            <td th:text="${usuario.nome}"></td>
+            <td th:text="${pontuacoes[usuario.cpf]}"></td>
         </tr>
     </table>
 </body>

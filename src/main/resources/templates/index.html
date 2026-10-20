@@ -6,12 +6,18 @@
 </head>
 <body>
     <h1>Seu Nutri</h1>
-    <p>Bem-vindo ao Seu Nutri. Escolha um dos módulos abaixo:</p>
+    <p th:if="${session.usuarioLogado != null}" th:text="|Bem-vindo, ${session.usuarioLogado.nome} (${session.usuarioLogado.papel})|"></p>
+    <p th:if="${session.usuarioLogado == null}">Bem-vindo ao Seu Nutri. Faça login para acessar os módulos.</p>
     <ul>
-        <li><a th:href="@{/pratos}">Pratos</a></li>
-        <li><a th:href="@{/usuarios}">Usuários</a></li>
-        <li><a th:href="@{/ranques}">Ranques</a></li>
-        <li><a th:href="@{/fichas}">Fichas</a></li>
+        <li th:if="${session.usuarioLogado == null}"><a th:href="@{/login}">Login</a></li>
+        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}"><a th:href="@{/pratos}">Pratos</a></li>
+        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}"><a th:href="@{/usuarios}">Usuários</a></li>
+        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}"><a th:href="@{/ranques}">Ranques</a></li>
+        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}"><a th:href="@{/fichas}">Fichas</a></li>
+        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}"><a th:href="@{/pratos}">Pratos</a></li>
+        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}"><a th:href="@{/ranques}">Ranques</a></li>
+        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}"><a th:href="@{/fichas}">Fichas</a></li>
+        <li th:if="${session.usuarioLogado != null}"><a th:href="@{/logout}">Sair</a></li>
     </ul>
 </body>
 </html>

@@ -25,6 +25,10 @@ public class Usuario {
 	@Column(name = "id_ranque")
 	private int idRanque;
 
+	private String senha;
+
+	private String papel;
+
 	public long getCpf() {
 		return cpf;
 	}
@@ -95,6 +99,22 @@ public class Usuario {
 
 	public void setIdRanque(int idRanque) {
 		this.idRanque = idRanque;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public String getPapel() {
+		return papel;
+	}
+
+	public void setPapel(String papel) {
+		this.papel = papel;
 	}
 
 }

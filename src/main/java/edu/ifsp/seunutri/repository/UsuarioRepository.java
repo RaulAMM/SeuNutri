@@ -9,4 +9,6 @@ import edu.ifsp.seunutri.modelo.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	Usuario findByCpfAndNome(long cpf, String nome);
 
+	Usuario findByEmail(String email);
+
 }

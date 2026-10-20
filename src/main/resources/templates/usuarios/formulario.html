@@ -15,8 +15,10 @@
         <label>Sexo: <input type="text" th:field="*{sexo}" required/></label><br/>
         <label>Nível de Atividade: <input type="text" th:field="*{nivelAtividade}" required/></label><br/>
         <label>ID Ranque: <input type="number" th:field="*{idRanque}" required/></label><br/>
+        <label>Senha: <input type="password" th:field="*{senha}" required/></label><br/>
         <button type="submit">Salvar</button>
     </form>
-    <a th:href="@{/usuarios}">Voltar</a>
+    <a th:if="${usuario.cpf} != 0" th:href="@{/usuarios}">Voltar</a>
+    <a th:if="${usuario.cpf} == 0" th:href="@{/login}">Voltar ao login</a>
 </body>
 </html>
