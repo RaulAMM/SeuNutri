@@ -34,6 +34,23 @@ public class UsuarioService {
 		return usuarioRepository.findById(id);
 	}
 
+	private String normalizarNivelAtividade(String sexo, String nivel) {
+		if (nivel == null || nivel.isEmpty()) {
+			return nivel;
+		}
+		String nivelLower = nivel.toLowerCase();
+		if (nivelLower.startsWith("sedent")) {
+			if ("F".equalsIgnoreCase(sexo)) {
+				return "sedentaria";
+			}
+			return "sedentario";
+		}
+		if ("F".equalsIgnoreCase(sexo)) {
+			return "ativa";
+		}
+		return "ativo";
+	}
+
 	public Usuario salvarUsuario(Usuario usuario) {
 		if (usuario != null && usuarioRepository.existsById(usuario.getCpf())) {
 			throw new RuntimeException("Este usuario ja existe");
@@ -42,6 +59,7 @@ public class UsuarioService {
 			usuario.setSenha(senhaService.hash(usuario.getSenha()));
 		}
 		usuario.setPapel("USUARIO");
+		usuario.setNivelAtividade(normalizarNivelAtividade(usuario.getSexo(), usuario.getNivelAtividade()));
 		Usuario salvo = usuarioRepository.save(usuario);
 		try {
 			fichaService.gerarFicha(salvo);
@@ -61,7 +79,7 @@ public class UsuarioService {
 		existente.setEmail(usuario.getEmail());
 		existente.setSexo(usuario.getSexo());
 		existente.setIdRanque(usuario.getIdRanque());
-		existente.setNivelAtividade(usuario.getNivelAtividade());
+		existente.setNivelAtividade(normalizarNivelAtividade(usuario.getSexo(), usuario.getNivelAtividade()));
 		if (usuario.getSenha() != null && !usuario.getSenha().isEmpty()) {
 			existente.setSenha(senhaService.hash(usuario.getSenha()));
 		}

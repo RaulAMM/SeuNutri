@@ -2,19 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Seu Nutri</title>
+    <link th:href="@{/css/estilo.css}" rel="stylesheet">
 </head>
 <body>
-    <h1>Login</h1>
-    <p th:if="${erro}" th:text="${erro}" style="color:red"></p>
-    <form th:action="@{/login}" method="post">
-        <label>E-mail:</label><br>
-        <input type="email" name="email" required><br><br>
-        <label>Senha:</label><br>
-        <input type="password" name="senha" required><br><br>
-        <button type="submit">Entrar</button>
-    </form>
-    <p>Não tem cadastro? <a th:href="@{/usuarios/novo}">Cadastre-se</a></p>
-    <p><a th:href="@{/}">Voltar à home</a></p>
+    <div class="card-login">
+        <h1>Seu Nutri</h1>
+        <p th:if="${erro}" th:text="${erro}" class="mensagem mensagem-erro"></p>
+        <p th:if="${sucesso}" th:text="${sucesso}" class="mensagem mensagem-sucesso"></p>
+        <form th:action="@{/login}" method="post">
+            <div class="campo">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="nome@email.com" required autocomplete="email"/>
+            </div>
+            <div class="campo campo-senha">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" placeholder="Sua senha" required autocomplete="current-password"/>
+                <button type="button" id="btn-mostrar-senha" class="btn-mostrar-senha" aria-label="Mostrar senha">👁️</button>
+            </div>
+            <button type="submit" class="botao">Entrar</button>
+        </form>
+        <p>Ainda não tem conta? <a th:href="@{/usuarios/novo}">Criar conta</a></p>
+        <p><a th:href="@{/}">Voltar à home</a></p>
+    </div>
+    <script th:src="@{/js/script.js}"></script>
 </body>
 </html>

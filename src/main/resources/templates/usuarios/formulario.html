@@ -2,24 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Usuário</title>
+    <title th:text="${usuario.cpf} != 0 ? 'Editar Usuário' : 'Novo Usuário'">Usuário</title>
 </head>
 <body>
-    <h1 th:text="${usuario.cpf} != 0 ? 'Editar Usuário' : 'Novo Usuário'"></h1>
+    <h1 th:text="${usuario.cpf} != 0 ? 'Editar Usuário' : 'Novo Usuário'">Novo Usuário</h1>
+    <p th:if="${erro}" th:text="${erro}" style="color:red"></p>
     <form th:action="${usuario.cpf} != 0 ? '/usuarios/' + ${usuario.cpf} : '/usuarios'" th:object="${usuario}" method="post">
-        <label>Nome: <input type="text" th:field="*{nome}" required/></label><br/>
-        <label>Localização: <input type="text" th:field="*{localizacao}" required/></label><br/>
-        <label>Idade: <input type="number" th:field="*{idade}" required/></label><br/>
-        <label>Peso: <input type="number" step="0.1" th:field="*{peso}" required/></label><br/>
-        <label>Email: <input type="email" th:field="*{email}" required/></label><br/>
-        <label>Sexo: <input type="text" th:field="*{sexo}" required/></label><br/>
-        <label>Nível de Atividade: <input type="text" th:field="*{nivelAtividade}" required/></label><br/>
-        <label>ID Ranque: <input type="number" th:field="*{idRanque}" required/></label><br/>
-        <label>Senha: <input type="password" th:field="*{senha}" required/></label><br/>
-        <button type="submit">Salvar</button>
+        <label>Nome: <input type="text" th:field="*{nome}" placeholder="Maria da Silva" required maxlength="255" autocomplete="name"/>
+            <br/><span style="font-size:0.9em;color:#666;">Nome completo. Ex.: Maria da Silva</span></label><br/>
+        <label>Localização: <input type="text" th:field="*{localizacao}" placeholder="Araraquara - SP" required maxlength="255" autocomplete="off"/>
+            <br/><span style="font-size:0.9em;color:#666;">Cidade e estado. Ex.: Araraquara - SP</span></label><br/>
+        <label>Idade: <input type="number" th:field="*{idade}" placeholder="25" required min="0" max="150" inputmode="numeric" autocomplete="off"/>
+            <br/><span style="font-size:0.9em;color:#666;">Em anos. Ex.: 25</span></label><br/>
+        <label>Peso: <input type="number" step="0.1" th:field="*{peso}" placeholder="70,5" required min="0" inputmode="decimal" autocomplete="off"/>
+            <br/><span style="font-size:0.9em;color:#666;">Em kg. Ex.: 70,5</span></label><br/>
+        <label>E-mail: <input type="email" th:field="*{email}" placeholder="nome@email.com" required maxlength="255" autocomplete="email"/>
+            <br/><span style="font-size:0.9em;color:#666;">Ex.: nome@email.com</span></label><br/>
+        <label>Sexo: <select th:field="*{sexo}" required>
+                <option value="" disabled selected>Selecione</option>
+                <option value="F">Feminino</option>
+                <option value="M">Masculino</option>
+            </select>
+            <br/><span style="font-size:0.9em;color:#666;">Escolha uma das opções.</span></label><br/>
+        <label>Nível de Atividade: <select th:field="*{nivelAtividade}" required>
+                <option value="" disabled selected>Selecione</option>
+                <option value="sedentario" th:selected="${usuario.nivelAtividade != null and usuario.nivelAtividade.toLowerCase().startsWith('sedent')}">Sedentário</option>
+                <option value="ativo" th:selected="${usuario.nivelAtividade != null and usuario.nivelAtividade.toLowerCase().startsWith('ativ')}">Ativo</option>
+            </select>
+            <br/><span style="font-size:0.9em;color:#666;">Escolha o que mais se parece com a sua rotina.</span></label><br/>
+        <label>Senha: <input type="password" th:field="*{senha}" 
+            th:placeholder="${usuario.cpf} != 0 ? 'Deixe em branco para manter a senha atual' : 'Escolha uma senha que você consiga lembrar'"
+            th:required="${usuario.cpf} == 0" autocomplete="new-password"/>
+            <br/><span style="font-size:0.9em;color:#666;" th:text="${usuario.cpf} != 0 ? 'Deixe em branco para manter a senha atual' : 'Escolha uma senha que você consiga lembrar'"></span></label><br/>
+        <button type="submit" th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}">Salvar</button>
+        <button type="submit" th:if="${session.usuarioLogado == null}">Criar conta</button>
     </form>
     <a th:if="${usuario.cpf} != 0" th:href="@{/usuarios}">Voltar</a>
-    <a th:if="${usuario.cpf} == 0" th:href="@{/login}">Voltar ao login</a>
+    <a th:if="${usuario.cpf} == 0" th:href="@{/login}">Já tem conta? Entrar</a>
     <a th:href="@{/}">Voltar para a Home</a>
 </body>
 </html>

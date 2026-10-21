@@ -1,0 +1,449 @@
+/* ========================================
+   Seu Nutri — Estilo visual (login e home)
+   Somente HTML, CSS e JavaScript puro.
+   Sem bibliotecas, sem CDN, sem fontes externas.
+   ======================================== */
+
+/* ---------- Variáveis de cores (reaproveitar nas demais telas) ---------- */
+:root {
+    --azul-principal: #1d4ed8;
+    --azul-escuro: #1e3a8a;
+    --azul-claro: #dbeafe;
+    --branco: #ffffff;
+    --preto: #000000;
+    --fundo-conteudo: #f8fafc;
+    --borda-suave: #e2e8f0;
+    --sucesso-fundo: #dcfce7;
+    --sucesso-borda: #22c55e;
+    --erro-fundo: #fee2e2;
+    --erro-borda: #ef4444;
+    --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --raio: 8px;
+    --espaco: 1rem;
+}
+
+/* ---------- Reset base ---------- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+}
+
+body {
+    background: var(--branco);
+    color: var(--preto);
+    font-size: 1rem;
+    min-height: 100vh;
+    padding: var(--espaco);
+}
+
+/* ---------- Cabeçalho (home) ---------- */
+.cabecalho {
+    background: var(--azul-principal);
+    color: var(--branco);
+    padding: var(--espaco);
+    border-radius: var(--raio);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco);
+    margin-bottom: var(--espaco);
+}
+
+.cabecalho h1 {
+    color: var(--branco);
+    font-size: 1.5rem;
+}
+
+.cabecalho .usuario-info {
+    color: var(--branco);
+    font-size: 1rem;
+}
+
+.cabecalho nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cabecalho a {
+    color: var(--branco);
+    text-decoration: none;
+}
+
+/* ---------- Links gerais ---------- */
+a {
+    color: var(--azul-principal);
+    text-decoration: underline;
+}
+
+a:hover {
+    color: var(--azul-escuro);
+}
+
+/* ---------- Botões gerais ---------- */
+.botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--azul-principal);
+    color: var(--branco);
+    border: none;
+    border-radius: var(--raio);
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.botao:hover {
+    background: var(--azul-escuro);
+}
+
+.botao-secundario {
+    background: var(--azul-claro);
+    color: var(--preto);
+}
+
+.botao-secundario:hover {
+    background: #bfdbfe;
+}
+
+/* ---------- Títulos de seção ---------- */
+.titulo-secao {
+    color: var(--azul-principal);
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+/* ---------- Mensagens (erro/sucesso) — login ---------- */
+.mensagem {
+    padding: 0.75rem 1rem;
+    border-radius: var(--raio);
+    margin-bottom: var(--espaco);
+    border: 1px solid;
+    font-size: 0.95rem;
+    color: var(--preto);
+}
+
+.mensagem-erro {
+    background: var(--erro-fundo);
+    border-color: var(--erro-borda);
+}
+
+.mensagem-sucesso {
+    background: var(--sucesso-fundo);
+    border-color: var(--sucesso-borda);
+}
+
+/* ---------- Formulário de login ---------- */
+.card-login {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--branco);
+    border: 1px solid var(--borda-suave);
+    border-radius: var(--raio);
+    box-shadow: var(--sombra);
+    text-align: center;
+}
+
+.card-login h1 {
+    color: var(--azul-principal);
+    margin-bottom: 0.5rem;
+    font-size: 1.75rem;
+}
+
+.card-login p {
+    margin-bottom: 1.5rem;
+    color: var(--preto);
+}
+
+.campo {
+    margin-bottom: var(--espaco);
+    text-align: left;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 0.375rem;
+    font-weight: 600;
+    color: var(--preto);
+}
+
+.campo input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid #cbd5e1;
+    border-radius: var(--raio);
+    font-size: 1rem;
+    color: var(--preto);
+}
+
+.campo input:focus {
+    outline: 2px solid var(--azul-principal);
+    border-color: var(--azul-principal);
+}
+
+/* Campo de senha com botão mostrar/ocultar */
+.campo-senha {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.campo-senha input {
+    flex: 1;
+    padding-right: 3rem;
+}
+
+.btn-mostrar-senha {
+    position: absolute;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--azul-principal);
+    cursor: pointer;
+    padding: 0.375rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.btn-mostrar-senha:hover {
+    color: var(--azul-escuro);
+}
+
+/* ---------- Home — cards de acesso ---------- */
+.grid-acessos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--espaco);
+    margin-top: var(--espaco);
+}
+
+.lista-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    list-style: none;
+}
+
+.lista-links li a {
+    display: block;
+    padding: 1.25rem 1rem;
+    background: var(--fundo-conteudo);
+    color: var(--preto);
+    text-decoration: none;
+    border-radius: var(--raio);
+    border: 1px solid var(--borda-suave);
+    text-align: center;
+    font-weight: 600;
+}
+
+.lista-links li a:hover {
+    background: var(--azul-claro);
+    border-color: var(--azul-principal);
+    color: var(--azul-escuro);
+}
+
+/* Botão Sair destacado no cabeçalho */
+.botao-sair {
+    background: var(--azul-escuro);
+    color: var(--branco);
+    padding: 0.5rem 1rem;
+    border-radius: var(--raio);
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.botao-sair:hover {
+    background: var(--azul-principal);
+}
+
+/* ---------- Botão menu mobile ---------- */
+.menu-mobile-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--branco);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+}
+
+.menu-mobile-btn:hover {
+    opacity: 0.9;
+}
+
+/* ---------- Tabelas de listagem (Prato, Ficha, Ranque) ---------- */
+.tabela-container {
+    overflow-x: auto;
+    margin-bottom: var(--espaco);
+}
+
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--branco);
+    border-radius: var(--raio);
+    overflow: hidden;
+    border: 1px solid var(--borda-suave);
+}
+
+.tabela th {
+    background: var(--azul-claro);
+    color: var(--preto);
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-bottom: 1px solid var(--borda-suave);
+}
+
+.tabela td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--borda-suave);
+    font-size: 0.95rem;
+    color: var(--preto);
+}
+
+.tabela tr:last-child td {
+    border-bottom: none;
+}
+
+.tabela tr:hover {
+    background: var(--fundo-conteudo);
+}
+
+/* ---------- Botão de excluir ---------- */
+.botao-excluir {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--azul-claro);
+    color: var(--preto);
+    border: 1px solid var(--azul-principal);
+    border-radius: var(--raio);
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.botao-excluir:hover {
+    background: #bfdbfe;
+    border-color: var(--azul-escuro);
+}
+
+/* ---------- Botão de salvar (formulários) ---------- */
+.botao-salvar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--azul-principal);
+    color: var(--branco);
+    border: none;
+    border-radius: var(--raio);
+    padding: 0.625rem 1.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 0.5rem;
+}
+
+.botao-salvar:hover {
+    background: var(--azul-escuro);
+}
+
+/* ---------- Bloco card (indicadores da ficha) ---------- */
+.card {
+    background: var(--branco);
+    border: 1px solid var(--borda-suave);
+    border-radius: var(--raio);
+    padding: 1.25rem;
+    margin-bottom: var(--espaco);
+    box-shadow: var(--sombra);
+}
+
+.card h3 {
+    color: var(--azul-principal);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.card p {
+    color: var(--preto);
+    font-size: 1rem;
+    margin: 0.25rem 0;
+}
+
+/* ---------- Formulário inline (ex.: gerar/excluir dentro de tabela) ---------- */
+.form-inline {
+    display: inline;
+}
+
+/* ---------- Campo de formulário (textarea incluído) ---------- */
+.campo textarea {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid #cbd5e1;
+    border-radius: var(--raio);
+    font-size: 1rem;
+    color: var(--preto);
+    font-family: inherit;
+    resize: vertical;
+}
+
+.campo textarea:focus {
+    outline: 2px solid var(--azul-principal);
+    border-color: var(--azul-principal);
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 640px) {
+    body {
+        padding: 0.75rem;
+    }
+
+    .cabecalho {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .cabecalho nav {
+        width: 100%;
+    }
+
+    .menu-mobile-btn {
+        display: block;
+        align-self: flex-end;
+    }
+
+    .lista-links {
+        display: none;
+        width: 100%;
+    }
+
+    .lista-links.aberto {
+        display: flex;
+    }
+
+    .card-login {
+        margin: 1rem auto;
+        padding: 1.5rem;
+    }
+
+    .card-login h1 {
+        font-size: 1.5rem;
+    }
+}

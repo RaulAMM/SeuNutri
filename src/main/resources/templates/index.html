@@ -2,22 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seu Nutri - Início</title>
+    <link th:href="@{/css/estilo.css}" rel="stylesheet">
 </head>
 <body>
-    <h1>Seu Nutri</h1>
-    <p th:if="${session.usuarioLogado != null}" th:text="|Bem-vindo, ${session.usuarioLogado.nome} (${session.usuarioLogado.papel})|"></p>
-    <p th:if="${session.usuarioLogado == null}">Bem-vindo ao Seu Nutri. Faça login para acessar os módulos.</p>
-    <ul>
-        <li th:if="${session.usuarioLogado == null}"><a th:href="@{/login}">Login</a></li>
-        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}"><a th:href="@{/pratos}">Pratos</a></li>
-        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}"><a th:href="@{/usuarios}">Usuários</a></li>
-        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}"><a th:href="@{/ranques}">Ranques</a></li>
-        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}"><a th:href="@{/fichas}">Fichas</a></li>
-        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}"><a th:href="@{/pratos}">Pratos</a></li>
-        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}"><a th:href="@{/ranques}">Ranques</a></li>
-        <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}"><a th:href="@{/fichas}">Fichas</a></li>
-        <li th:if="${session.usuarioLogado != null}"><a th:href="@{/logout}">Sair</a></li>
-    </ul>
+    <header class="cabecalho">
+        <div>
+            <h1>Seu Nutri</h1>
+            <p th:if="${session.usuarioLogado != null}" th:text="|Bem-vindo, ${session.usuarioLogado.nome} (${session.usuarioLogado.papel})|" class="usuario-info"></p>
+            <p th:if="${session.usuarioLogado == null}" class="usuario-info">Bem-vindo ao Seu Nutri. Faça login para acessar os módulos.</p>
+        </div>
+        <nav>
+            <button class="menu-mobile-btn" id="btn-menu-mobile" aria-label="Abrir menu">☰</button>
+            <ul class="lista-links" id="lista-links">
+                <li th:if="${session.usuarioLogado == null}"><a th:href="@{/login}">Login</a></li>
+                <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}"><a th:href="@{/pratos}">Pratos</a></li>
+                <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}"><a th:href="@{/usuarios}">Usuários</a></li>
+                <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}"><a th:href="@{/ranques}">Ranques</a></li>
+                <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}"><a th:href="@{/fichas}">Fichas</a></li>
+                <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}"><a th:href="@{/pratos}">Pratos</a></li>
+                <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}"><a th:href="@{/ranques}">Ranques</a></li>
+                <li th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}"><a th:href="@{/fichas}">Fichas</a></li>
+                <li th:if="${session.usuarioLogado != null}"><a th:href="@{/logout}" class="botao-sair">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2 class="titulo-secao">Acessos rápidos</h2>
+        <div class="grid-acessos">
+            <a th:if="${session.usuarioLogado == null}" th:href="@{/login}" class="card-acesso">
+                <h3>Login</h3>
+                <p>Acesse o sistema</p>
+            </a>
+            <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/pratos}" class="card-acesso">
+                <h3>Pratos</h3>
+                <p>Gerenciar pratos</p>
+            </a>
+            <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/usuarios}" class="card-acesso">
+                <h3>Usuários</h3>
+                <p>Gerenciar usuários</p>
+            </a>
+            <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/ranques}" class="card-acesso">
+                <h3>Ranques</h3>
+                <p>Ver ranques</p>
+            </a>
+            <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/fichas}" class="card-acesso">
+                <h3>Fichas</h3>
+                <p>Gerenciar fichas</p>
+            </a>
+            <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}" th:href="@{/pratos}" class="card-acesso">
+                <h3>Pratos</h3>
+                <p>Ver pratos</p>
+            </a>
+            <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}" th:href="@{/ranques}" class="card-acesso">
+                <h3>Ranques</h3>
+                <p>Ver ranques</p>
+            </a>
+            <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}" th:href="@{/fichas}" class="card-acesso">
+                <h3>Fichas</h3>
+                <p>Minhas fichas</p>
+            </a>
+            <a th:if="${session.usuarioLogado != null}" th:href="@{/logout}" class="card-acesso botao-sair">
+                <h3>Sair</h3>
+                <p>Encerrar sessão</p>
+            </a>
+        </div>
+    </main>
+    <script th:src="@{/js/script.js}"></script>
 </body>
 </html>

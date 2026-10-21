@@ -2,42 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pratos</title>
+    <link th:href="@{/css/estilo.css}" rel="stylesheet">
 </head>
 <body>
-    <h1>Pratos</h1>
-    <p th:if="${erro}" th:text="${erro}" style="color:red"></p>
-    <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/pratos/novo}">Novo Prato</a>
+    <header class="cabecalho" th:if="${session.usuarioLogado != null}">
+        <div>
+            <h1>Seu Nutri</h1>
+            <p th:text="|Bem-vindo, ${session.usuarioLogado.nome} (${session.usuarioLogado.papel})|" class="usuario-info"></p>
+        </div>
+        <nav>
+            <a th:href="@{/logout}" class="botao-sair">Sair</a>
+        </nav>
+    </header>
 
-    <form th:action="@{/pratos}" method="get" style="margin-bottom:15px">
-        <label for="nome">Nome do prato:</label>
-        <input type="text" id="nome" name="nome" th:value="${nome}" />
-        <label for="ingredientesEvitar">Ingredientes a evitar (separados por vírgula):</label>
-        <input type="text" id="ingredientesEvitar" name="ingredientesEvitar" th:value="${ingredientesEvitar}" />
-        <button type="submit">Buscar</button>
-        <a th:href="@{/pratos}">Limpar filtros</a>
-    </form>
+    <main>
+        <h1 class="titulo-secao">Pratos</h1>
+        <p th:if="${erro}" th:text="${erro}" class="mensagem mensagem-erro"></p>
 
-    <p th:if="${#lists.isEmpty(pratos)}" style="color:red">Nenhum prato encontrado</p>
+        <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/pratos/novo}" class="botao">Novo Prato</a>
 
-    <table border="1">
-        <tr>
-            <th>ID</th><th>Nome</th><th>Ingredientes</th><th>Valor Nutricional</th><th>Receita</th><th>Ações</th>
-        </tr>
-        <tr th:each="prato : ${pratos}">
-            <td th:text="${prato.id}"></td>
-            <td th:text="${prato.nome}"></td>
-            <td th:text="${prato.ingredientes}"></td>
-            <td th:text="${prato.valorNutricional}"></td>
-            <td th:text="${prato.receita}"></td>
-            <td>
-                <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/pratos/{id}/editar(id=${prato.id})}">Editar</a>
-                <form th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:action="@{/pratos/{id}/excluir(id=${prato.id})}" method="post" style="display:inline">
-                    <button type="submit">Excluir</button>
-                </form>
-            </td>
-        </tr>
-    </table>
-    <a th:href="@{/}">Voltar para a Home</a>
+        <form th:action="@{/pratos}" method="get" class="campo" style="display:flex; gap:0.5rem; align-items:flex-end; margin-bottom:1rem;">
+            <label for="nome" style="margin-right:0.25rem;">Nome do prato:</label>
+            <input type="text" id="nome" name="nome" th:value="${nome}" placeholder="Buscar por nome"/>
+            <label for="ingredientesEvitar" style="margin-right:0.25rem;">Ingredientes a evitar (separados por vírgula):</label>
+            <input type="text" id="ingredientesEvitar" name="ingredientesEvitar" th:value="${ingredientesEvitar}" placeholder="Ingredientes"/>
+            <button type="submit" class="botao">Buscar</button>
+            <a th:href="@{/pratos}" class="botao-secundario">Limpar filtros</a>
+        </form>
+
+        <p th:if="${#lists.isEmpty(pratos)}" class="mensagem mensagem-erro">Nenhum prato encontrado</p>
+
+        <div class="tabela-container">
+            <table class="tabela">
+                <tr>
+                    <th>ID</th><th>Nome</th><th>Ingredientes</th><th>Valor Nutricional</th><th>Receita</th><th>Ações</th>
+                </tr>
+                <tr th:each="prato : ${pratos}">
+                    <td th:text="${prato.id}"></td>
+                    <td th:text="${prato.nome}"></td>
+                    <td th:text="${prato.ingredientes}"></td>
+                    <td th:text="${prato.valorNutricional}"></td>
+                    <td th:text="${prato.receita}"></td>
+                    <td>
+                        <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/pratos/{id}/editar(id=${prato.id})}">Editar</a>
+                        <form th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:action="@{/pratos/{id}/excluir(id=${prato.id})}" method="post" class="form-inline" data-confirmar="Deseja excluir este prato?">
+                            <button type="submit" class="botao-excluir">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <a th:href="@{/}">Voltar para a Home</a>
+    </main>
+    <script th:src="@{/js/script.js}"></script>
 </body>
 </html>

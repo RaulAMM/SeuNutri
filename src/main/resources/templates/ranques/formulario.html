@@ -2,17 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranque</title>
+    <link th:href="@{/css/estilo.css}" rel="stylesheet">
 </head>
 <body>
-    <h1 th:text="${ranque.id} != 0 ? 'Editar Ranque' : 'Novo Ranque'"></h1>
-    <form th:action="${ranque.id} != 0 ? '/ranques/' + ${ranque.id} : '/ranques'" th:object="${ranque}" method="post">
-        <label>IMC: <input type="number" th:field="*{imc}" required/></label><br/>
-        <label>Pontuação: <input type="number" step="0.1" th:field="*{pontuacao}" required/></label><br/>
-        <label>Ranque: <input type="text" th:field="*{ranquecol}" required/></label><br/>
-        <button type="submit" th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}">Salvar</button>
-    </form>
-    <a th:href="@{/ranques}">Voltar</a>
-    <a th:href="@{/}">Voltar para a Home</a>
+    <header class="cabecalho" th:if="${session.usuarioLogado != null}">
+        <div>
+            <h1>Seu Nutri</h1>
+            <p th:text="|Bem-vindo, ${session.usuarioLogado.nome} (${session.usuarioLogado.papel})|" class="usuario-info"></p>
+        </div>
+        <nav>
+            <a th:href="@{/logout}" class="botao-sair">Sair</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="titulo-secao" th:text="${ranque.id} != 0 ? 'Editar Ranque' : 'Novo Ranque'"></h1>
+        <form th:action="${ranque.id} != 0 ? '/ranques/' + ${ranque.id} : '/ranques'" th:object="${ranque}" method="post">
+            <div class="campo">
+                <label for="imc">IMC</label>
+                <input type="number" id="imc" th:field="*{imc}" required/>
+            </div>
+            <div class="campo">
+                <label for="pontuacao">Pontuação</label>
+                <input type="number" step="0.1" id="pontuacao" th:field="*{pontuacao}" required/>
+            </div>
+            <div class="campo">
+                <label for="ranquecol">Ranque</label>
+                <input type="text" id="ranquecol" th:field="*{ranquecol}" required/>
+            </div>
+            <button type="submit" th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" class="botao-salvar">Salvar</button>
+        </form>
+        <a th:href="@{/ranques}">Voltar</a>
+        <a th:href="@{/}">Voltar para a Home</a>
+    </main>
+    <script th:src="@{/js/script.js}"></script>
 </body>
 </html>

@@ -2,38 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranque</title>
+    <link th:href="@{/css/estilo.css}" rel="stylesheet">
 </head>
 <body>
-    <h1 th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}">Ranques</h1>
-    <h1 th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}">Ranque - <span th:text="${grupo}"></span></h1>
-    <p th:if="${erro}" th:text="${erro}" style="color:red"></p>
-    <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/ranques/novo}">Novo Ranque</a>
-    <table border="1">
-        <tr th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}">
-            <th>ID</th><th>IMC</th><th>Pontuação</th><th>Ranque</th><th>Ações</th>
-        </tr>
-        <tr th:each="ranque : ${ranques}" th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}">
-            <td th:text="${ranque.id}"></td>
-            <td th:text="${ranque.imc}"></td>
-            <td th:text="${ranque.pontuacao}"></td>
-            <td th:text="${ranque.ranquecol}"></td>
-            <td>
-                <a th:href="@{/ranques/{id}/editar(id=${ranque.id})}">Editar</a>
-                <form th:action="@{/ranques/{id}/excluir(id=${ranque.id})}" method="post" style="display:inline">
-                    <button type="submit">Excluir</button>
-                </form>
-            </td>
-        </tr>
-        <tr th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}">
-            <th>Posição</th><th>Nome</th><th>Pontuação</th>
-        </tr>
-        <tr th:each="usuario, stat : ${usuariosDoGrupo}" th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}">
-            <td th:text="${stat.index + 1}"></td>
-            <td th:text="${usuario.nome}"></td>
-            <td th:text="${pontuacoes[usuario.cpf]}"></td>
-        </tr>
-    </table>
-    <a th:href="@{/}">Voltar para a Home</a>
+    <header class="cabecalho" th:if="${session.usuarioLogado != null}">
+        <div>
+            <h1>Seu Nutri</h1>
+            <p th:text="|Bem-vindo, ${session.usuarioLogado.nome} (${session.usuarioLogado.papel})|" class="usuario-info"></p>
+        </div>
+        <nav>
+            <a th:href="@{/logout}" class="botao-sair">Sair</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1 th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" class="titulo-secao">Ranques</h1>
+        <h1 th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}" class="titulo-secao">Ranque - <span th:text="${grupo}"></span></h1>
+        <p th:if="${erro}" th:text="${erro}" class="mensagem mensagem-erro"></p>
+        <a th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}" th:href="@{/ranques/novo}" class="botao">Novo Ranque</a>
+
+        <div class="tabela-container">
+            <table class="tabela">
+                <tr th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}">
+                    <th>ID</th><th>IMC</th><th>Pontuação</th><th>Ranque</th><th>Ações</th>
+                </tr>
+                <tr th:each="ranque : ${ranques}" th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'ADMIN'}">
+                    <td th:text="${ranque.id}"></td>
+                    <td th:text="${ranque.imc}"></td>
+                    <td th:text="${ranque.pontuacao}"></td>
+                    <td th:text="${ranque.ranquecol}"></td>
+                    <td>
+                        <a th:href="@{/ranques/{id}/editar(id=${ranque.id})}">Editar</a>
+                        <form th:action="@{/ranques/{id}/excluir(id=${ranque.id})}" method="post" class="form-inline" data-confirmar="Deseja excluir este ranque?">
+                            <button type="submit" class="botao-excluir">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}">
+                    <th>Posição</th><th>Nome</th><th>Pontuação</th>
+                </tr>
+                <tr th:each="usuario, stat : ${usuariosDoGrupo}" th:if="${session.usuarioLogado != null and session.usuarioLogado.papel == 'USUARIO'}">
+                    <td th:text="${stat.index + 1}"></td>
+                    <td th:text="${usuario.nome}"></td>
+                    <td th:text="${pontuacoes[usuario.cpf]}"></td>
+                </tr>
+            </table>
+        </div>
+        <a th:href="@{/}">Voltar para a Home</a>
+    </main>
+    <script th:src="@{/js/script.js}"></script>
 </body>
 </html>

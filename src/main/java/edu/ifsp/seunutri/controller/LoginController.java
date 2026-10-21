@@ -37,11 +37,11 @@ public class LoginController {
 			@RequestParam("senha") String senha, HttpSession session, Model model) {
 		Usuario usuario = usuarioRepository.findByEmail(email);
 		if (usuario == null) {
-			model.addAttribute("erro", "E-mail ou senha invalidos.");
+			model.addAttribute("erro", "E-mail ou senha incorretos.");
 			return "login";
 		}
 		if (!senhaService.verificar(senha, usuario.getSenha())) {
-			model.addAttribute("erro", "E-mail ou senha invalidos.");
+			model.addAttribute("erro", "E-mail ou senha incorretos.");
 			return "login";
 		}
 		session.setAttribute("usuarioLogado", usuario);
